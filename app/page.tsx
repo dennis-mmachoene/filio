@@ -6,12 +6,14 @@ import { StorageFile } from '@/lib/types';
 import FileUpload from '@/components/FileUpload';
 import FileList from '@/components/FileList';
 import SearchBar from '@/components/SearchBar';
+import { useTheme } from '@/components/ThemeProvider';
 
 export default function Home() {
   const [files, setFiles] = useState<StorageFile[]>([]);
   const [filteredFiles, setFilteredFiles] = useState<StorageFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     loadFiles();
@@ -45,7 +47,6 @@ export default function Home() {
         return;
       }
 
-      // Filter out the .emptyFolderPlaceholder file that Supabase creates
       const filteredData = (data || []).filter(
         (file) => file.name !== '.emptyFolderPlaceholder'
       );
@@ -66,15 +67,15 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 via-transparent to-purple-50/30 pointer-events-none"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 via-transparent to-purple-50/30 dark:from-indigo-950/20 dark:via-transparent dark:to-purple-950/20 pointer-events-none"></div>
       
       {/* Header */}
-      <header className="relative bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+      <header className="relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-700/60 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-200/50">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-200/50 dark:shadow-indigo-500/20">
                 <svg
                   className="h-6 w-6 text-white"
                   fill="none"
@@ -89,27 +90,66 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
                 Filio
               </h1>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200/60 rounded-xl">
-              <svg
-                className="h-5 w-5 text-indigo-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/50 dark:to-purple-950/50 border border-indigo-200/60 dark:border-indigo-700/60 rounded-xl">
+                <svg
+                  className="h-5 w-5 text-indigo-600 dark:text-indigo-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  />
+                </svg>
+                <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  <span className="text-indigo-600 dark:text-indigo-400">{files.length}</span> {files.length === 1 ? 'file' : 'files'}
+                </span>
+              </div>
+              
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-700 border border-slate-200/60 dark:border-slate-600/60 flex items-center justify-center shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 group"
+                aria-label="Toggle theme"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                />
-              </svg>
-              <span className="text-sm font-semibold text-slate-700">
-                <span className="text-indigo-600">{files.length}</span> {files.length === 1 ? 'file' : 'files'}
-              </span>
+                {theme === 'light' ? (
+                  <svg
+                    className="h-5 w-5 text-slate-700 group-hover:text-indigo-600 transition-colors duration-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-5 w-5 text-slate-300 group-hover:text-amber-400 transition-colors duration-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                    />
+                  </svg>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -118,12 +158,12 @@ export default function Home() {
       {/* Main Content */}
       <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Security Warning */}
-        <div className="mb-8 relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/60 shadow-sm">
+        <div className="mb-8 relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border border-amber-200/60 dark:border-amber-800/60 shadow-sm">
           <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-amber-500 to-orange-600"></div>
           <div className="p-5 pl-6">
             <div className="flex gap-4">
               <div className="flex-shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-md shadow-amber-200/50">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-md shadow-amber-200/50 dark:shadow-amber-900/30">
                   <svg
                     className="h-5 w-5 text-white"
                     viewBox="0 0 20 20"
@@ -138,8 +178,8 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex-1">
-                <h3 className="text-sm font-semibold text-amber-900 mb-1">Public Storage</h3>
-                <p className="text-sm text-amber-800 leading-relaxed">
+                <h3 className="text-sm font-semibold text-amber-900 dark:text-amber-200 mb-1">Public Storage</h3>
+                <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">
                   All uploaded files are publicly accessible. Anyone with the file URL can view and download them. Do not upload sensitive or private information.
                 </p>
               </div>
@@ -149,13 +189,13 @@ export default function Home() {
 
         <div className="space-y-8">
           {/* Upload Section */}
-          <section className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/60 shadow-sm">
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/20 via-transparent to-purple-50/20"></div>
+          <section className="relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-700/60 shadow-sm">
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/20 via-transparent to-purple-50/20 dark:from-indigo-950/10 dark:via-transparent dark:to-purple-950/10"></div>
             <div className="relative p-8">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center">
                   <svg
-                    className="h-5 w-5 text-indigo-600"
+                    className="h-5 w-5 text-indigo-600 dark:text-indigo-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -168,7 +208,7 @@ export default function Home() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-semibold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                <h2 className="text-2xl font-semibold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
                   Upload Files
                 </h2>
               </div>
@@ -177,14 +217,14 @@ export default function Home() {
           </section>
 
           {/* Files Section */}
-          <section className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/60 shadow-sm">
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/20 via-transparent to-purple-50/20"></div>
+          <section className="relative overflow-hidden rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-700/60 shadow-sm">
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/20 via-transparent to-purple-50/20 dark:from-indigo-950/10 dark:via-transparent dark:to-purple-950/10"></div>
             <div className="relative p-8">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center">
                     <svg
-                      className="h-5 w-5 text-indigo-600"
+                      className="h-5 w-5 text-indigo-600 dark:text-indigo-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -197,14 +237,14 @@ export default function Home() {
                       />
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-semibold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                  <h2 className="text-2xl font-semibold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
                     Your Files
                   </h2>
                 </div>
                 <button
                   onClick={loadFiles}
                   disabled={loading}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 hover:text-white border border-slate-200/60 hover:border-transparent shadow-sm hover:shadow-md hover:shadow-indigo-200/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-600 hover:text-white border border-slate-200/60 dark:border-slate-600/60 hover:border-transparent shadow-sm hover:shadow-md hover:shadow-indigo-200/50 dark:hover:shadow-indigo-500/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <svg
                     className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`}
@@ -245,19 +285,19 @@ export default function Home() {
       {/* Footer */}
       <footer className="relative mt-16 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl bg-white/60 backdrop-blur-xl border border-slate-200/60 shadow-sm p-8">
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 via-transparent to-purple-50/30"></div>
+          <div className="relative overflow-hidden rounded-3xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/60 dark:border-slate-700/60 shadow-sm p-8">
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 via-transparent to-purple-50/30 dark:from-indigo-950/20 dark:via-transparent dark:to-purple-950/20"></div>
             <div className="relative text-center space-y-4">
-              <p className="text-sm font-medium text-slate-600">
-                Powered by <span className="text-indigo-600 font-semibold">Supabase Storage</span> • <span className="text-purple-600 font-semibold">Next.js 16</span> • <span className="text-pink-600 font-semibold">Tailwind CSS v4</span>
+              <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                Powered by <span className="text-indigo-600 dark:text-indigo-400 font-semibold">Supabase Storage</span> • <span className="text-purple-600 dark:text-purple-400 font-semibold">Next.js 16</span> • <span className="text-pink-600 dark:text-pink-400 font-semibold">Tailwind CSS v4</span>
               </p>
-              <p className="text-base font-semibold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+              <p className="text-base font-semibold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
                 By Dennis Mmachoene Ramara
               </p>
               <div className="flex items-center justify-center gap-4 pt-2">
                 <a
                   href="#"
-                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md shadow-blue-200/50 hover:shadow-lg hover:shadow-blue-300/50 transition-all duration-300 hover:scale-110"
+                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-md shadow-blue-200/50 dark:shadow-blue-900/30 hover:shadow-lg hover:shadow-blue-300/50 dark:hover:shadow-blue-800/50 transition-all duration-300 hover:scale-110"
                   aria-label="Facebook"
                 >
                   <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -266,7 +306,7 @@ export default function Home() {
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center shadow-md shadow-pink-200/50 hover:shadow-lg hover:shadow-pink-300/50 transition-all duration-300 hover:scale-110"
+                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center shadow-md shadow-pink-200/50 dark:shadow-pink-900/30 hover:shadow-lg hover:shadow-pink-300/50 dark:hover:shadow-pink-800/50 transition-all duration-300 hover:scale-110"
                   aria-label="Instagram"
                 >
                   <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -275,7 +315,7 @@ export default function Home() {
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-md shadow-blue-200/50 hover:shadow-lg hover:shadow-blue-300/50 transition-all duration-300 hover:scale-110"
+                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-md shadow-blue-200/50 dark:shadow-blue-900/30 hover:shadow-lg hover:shadow-blue-300/50 dark:hover:shadow-blue-800/50 transition-all duration-300 hover:scale-110"
                   aria-label="LinkedIn"
                 >
                   <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -284,7 +324,7 @@ export default function Home() {
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center shadow-md shadow-slate-200/50 hover:shadow-lg hover:shadow-slate-300/50 transition-all duration-300 hover:scale-110"
+                  className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center shadow-md shadow-slate-200/50 dark:shadow-slate-900/30 hover:shadow-lg hover:shadow-slate-300/50 dark:hover:shadow-slate-800/50 transition-all duration-300 hover:scale-110"
                   aria-label="GitHub"
                 >
                   <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">

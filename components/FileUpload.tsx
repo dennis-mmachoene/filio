@@ -91,14 +91,14 @@ export default function FileUpload({ onUploadComplete }: FileUploadProps) {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-center w-full">
-        <label className="group relative flex flex-col items-center justify-center w-full h-72 border-2 border-dashed border-slate-300 rounded-3xl cursor-pointer bg-gradient-to-br from-slate-50 via-white to-slate-50 hover:border-indigo-400 transition-all duration-500 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/40 via-transparent to-purple-50/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <label className="group relative flex flex-col items-center justify-center w-full h-72 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-3xl cursor-pointer bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all duration-500 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/40 via-transparent to-purple-50/40 dark:from-indigo-950/20 dark:via-transparent dark:to-purple-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 dark:via-slate-800/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
           
           <div className="relative flex flex-col items-center justify-center px-6">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-100 to-purple-100 mb-6 shadow-lg shadow-indigo-100/50 group-hover:shadow-xl group-hover:shadow-indigo-200/50 transition-all duration-500 group-hover:scale-110">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 mb-6 shadow-lg shadow-indigo-100/50 dark:shadow-indigo-900/30 group-hover:shadow-xl group-hover:shadow-indigo-200/50 dark:group-hover:shadow-indigo-800/50 transition-all duration-500 group-hover:scale-110">
               <svg
-                className="w-10 h-10 text-indigo-600 group-hover:text-indigo-700 transition-colors duration-300"
+                className="w-10 h-10 text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors duration-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -111,11 +111,11 @@ export default function FileUpload({ onUploadComplete }: FileUploadProps) {
                 />
               </svg>
             </div>
-            <p className="mb-2 text-base text-slate-700">
-              <span className="font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Click to upload</span>
-              <span className="text-slate-600"> or drag and drop</span>
+            <p className="mb-2 text-base text-slate-700 dark:text-slate-300">
+              <span className="font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">Click to upload</span>
+              <span className="text-slate-600 dark:text-slate-400"> or drag and drop</span>
             </p>
-            <p className="text-sm text-slate-500">Any file type supported</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Any file type supported</p>
           </div>
           <input
             ref={fileInputRef}
@@ -133,14 +133,14 @@ export default function FileUpload({ onUploadComplete }: FileUploadProps) {
           {uploadProgress.map((progress, index) => (
             <div
               key={index}
-              className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/60 shadow-sm transition-all duration-300"
+              className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 shadow-sm transition-all duration-300"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 via-transparent to-purple-50/30 opacity-50"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/30 via-transparent to-purple-50/30 dark:from-indigo-950/20 dark:via-transparent dark:to-purple-950/20 opacity-50"></div>
               
               <div className="relative p-4">
                 <div className="flex items-center justify-between gap-3 mb-3">
                   <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md shadow-indigo-200/50">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md shadow-indigo-200/50 dark:shadow-indigo-900/30">
                       <svg
                         className="h-5 w-5 text-white"
                         fill="none"
@@ -155,12 +155,12 @@ export default function FileUpload({ onUploadComplete }: FileUploadProps) {
                         />
                       </svg>
                     </div>
-                    <span className="text-sm font-semibold text-slate-800 truncate">
+                    <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
                       {progress.fileName}
                     </span>
                   </div>
                   {progress.status === 'success' && (
-                    <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-md shadow-emerald-200/50">
+                    <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-md shadow-emerald-200/50 dark:shadow-emerald-900/30">
                       <svg
                         className="h-5 w-5 text-white"
                         fill="none"
@@ -177,7 +177,7 @@ export default function FileUpload({ onUploadComplete }: FileUploadProps) {
                     </div>
                   )}
                   {progress.status === 'error' && (
-                    <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center shadow-md shadow-rose-200/50">
+                    <div className="flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-rose-500 to-red-600 flex items-center justify-center shadow-md shadow-rose-200/50 dark:shadow-rose-900/30">
                       <svg
                         className="h-5 w-5 text-white"
                         fill="none"
@@ -195,13 +195,13 @@ export default function FileUpload({ onUploadComplete }: FileUploadProps) {
                   )}
                 </div>
                 {progress.status === 'uploading' && (
-                  <div className="relative w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="relative w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
                   </div>
                 )}
                 {progress.status === 'error' && (
-                  <div className="mt-2 px-3 py-2 bg-rose-50 border border-rose-200/60 rounded-xl">
-                    <p className="text-xs font-medium text-rose-600">{progress.error}</p>
+                  <div className="mt-2 px-3 py-2 bg-rose-50 dark:bg-rose-950/30 border border-rose-200/60 dark:border-rose-800/60 rounded-xl">
+                    <p className="text-xs font-medium text-rose-600 dark:text-rose-400">{progress.error}</p>
                   </div>
                 )}
               </div>

@@ -1,19 +1,24 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "Filio",
-  description: "Upload and manage files with Supabase Storage",
+  title: 'Filio - File Storage',
+  description: 'Premium file storage and management',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
